@@ -1,8 +1,3 @@
-# ---------------------------- PASSWORD GENERATOR ------------------------------- #
-
-# ---------------------------- SAVE PASSWORD ------------------------------- #
-
-# ---------------------------- UI SETUP ------------------------------- #
 from tkinter import *
 from tkinter import messagebox
 from class_labels import Labels
