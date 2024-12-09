@@ -68,8 +68,13 @@ def buscar():
 
         with open(r"passwords.json", "r") as data:
             datos = json.load(data)
+            
             if site in datos:
-                messagebox.showinfo(title="Contraseña", message=f"Email: {datos[site]["email"]}\n Password: {datos[site]["password"]}")
+                messagebox.showinfo(title="Datos", message=f"Email: {datos[site]["email"]}\n Password: {datos[site]["password"]}")
+            
+            else: 
+                messagebox.showinfo(title="Error", message=f"{site} No encontrado")
+    
     except (FileNotFoundError, json.JSONDecodeError): 
         messagebox.showinfo(title="ERROR", message="Pagina Inexistente") 
 
