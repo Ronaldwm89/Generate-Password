@@ -57,10 +57,23 @@ def save():
             inp_website.focus()
 
 def generate():
+    
     contraseña = password_aleatoria()
     inp_passw.insert(0, contraseña)
     pyperclip.copy(contraseña)
-    
+
+def buscar():
+    site = inp_website.get()
+    try:
+
+        with open(r"passwords.json", "r") as data:
+            datos = json.load(data)
+            if site in datos:
+                messagebox.showinfo(title="Contraseña", message=f"Email: {datos[site]["email"]}\n Password: {datos[site]["password"]}")
+    except (FileNotFoundError, json.JSONDecodeError): 
+        messagebox.showinfo(title="ERROR", message="Pagina Inexistente") 
+
+
 
 BLUE = "#30475E"
 RED = "#F05454"
@@ -75,17 +88,21 @@ canvas_bg = Canvas(width=200, height=200, bg=BG_COLOR, highlightthickness=0)
 canvas_bg.create_image(100,100, image=image_bg)
 canvas_bg.grid(column=1, row=0)
 
-
+#Labels
 website = Labels("Website:", 0,1)
 email_user = Labels("Email/Username:", 0,2)
 password = Labels("Password:", 0,3)
 
+#Botones de la IU
+button_search = Botones("Search", 2,1,1, buscar)
 button_generate = Botones("Generate", 2,3,1, generate)
-button_add = Botones("Add", 1,4,2, save)
 
+button_add = Botones("Add", 1,4,2, save)
 button_add.config(width=34)
 
-inp_website = Entradas(40,1,1,2)
+
+#Inputs
+inp_website = Entradas(30,1,1,1)
 inp_website.focus()
 
 inp_email = Entradas(40,1,2,2)
