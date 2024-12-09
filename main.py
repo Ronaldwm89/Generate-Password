@@ -6,6 +6,7 @@ from class_buttons import Botones
 from modulo_abc import *
 import random
 import pyperclip
+import json
 
 
 
@@ -23,20 +24,37 @@ def save():
     website_text = inp_website.get()
     email_text = inp_email.get()
     passw_text = inp_passw.get()
+    new_data = {
+        website_text: {
+            "email": email_text,
+            "password": passw_text,
+        }
+    }
 
     if len(website_text) < 1 or len(passw_text) < 1:
         messagebox.showinfo(title="Input Empty", message="Debes completar todos los campos")
         
     else:
-        validacion = messagebox.askokcancel(title=website_text, message=f"Desea guardar la siguiente informacion:\n Email: {email_text}\n Contraseña: {passw_text}\n OK?")
-
-        if validacion:
-            with open(r"passwords.txt", "a") as data:
-            
-             data.write(f"{website_text} | {email_text} | {passw_text}\n")
-             inp_passw.delete(0, END)
-             inp_website.delete(0, END)
-             inp_website.focus()
+        try:
+            with open(r"passwords.json", "r") as data:
+         
+                #leyendo los archivos viejos
+                data_new = json.load(data)
+         
+               
+        except (FileNotFoundError, json.JSONDecodeError): 
+             data_new = {}
+        
+        #actualizando los datos vacios con nuevos
+        data_new.update(new_data)
+        
+        with open(r"passwords.json", "w") as data:
+            #agregando la nueva info a la vieja funciona como un write
+            json.dump(data_new, data, indent=4)
+         
+            inp_passw.delete(0, END)
+            inp_website.delete(0, END)
+            inp_website.focus()
 
 def generate():
     contraseña = password_aleatoria()
